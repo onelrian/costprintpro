@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: costprint-postgres-dev
+    environment:
+      POSTGRES_DB: costprint
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Redis Cache (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: costprint-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_dev:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Backend API (Development mode with hot reload)
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend.dev
+    container_name: costprint-backend-dev
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/costprint
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev-jwt-secret-key-not-for-production
+      PORT: 8080
+      CORS_ORIGINS: http://localhost:3000,http://frontend:3000,http://127.0.0.1:3000
+      RUST_LOG: debug
+      BIND_ADDRESS: 0.0.0.0:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+    volumes:
+      - ../backend:/app
+      - backend_target:/app/target  # Cache Rust build artifacts
+    working_dir: /app
+
+  # Frontend Application (Development mode with hot reload)
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend.dev
+    container_name: costprint-frontend-dev
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+      NODE_ENV: development
+      PORT: 3000
+      WATCHPACK_POLLING: "true"  # Enable polling for file changes in Docker
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules  # Anonymous volume for node_modules
+      - /app/.next  # Anonymous volume for .next build cache
+
+volumes:
+  postgres_data_dev:
+    driver: local
+  redis_data_dev:
+    driver: local
+  backend_target:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
