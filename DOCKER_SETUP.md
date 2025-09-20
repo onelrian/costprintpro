@@ -26,7 +26,7 @@ This document provides a complete Docker Compose setup for the CostPrint Pro app
 ### Production Environment
 ```bash
 # Navigate to project root
-cd /home/onel/Projects/costprint1
+cd costprintpro
 
 # Start all services (detached mode)
 ./docker/start.sh prod -d

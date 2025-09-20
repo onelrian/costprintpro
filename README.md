@@ -279,8 +279,8 @@ Before installing CostPrint Pro, ensure you have the following software installe
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd costprint1
+   git clone https://github.com/onelrian/costprintpro.git
+   cd costprintpro
    ```
 
 2. **Configure environment variables**:
@@ -566,8 +566,8 @@ All API responses follow a consistent format:
 
 1. **Clone and setup**:
    ```bash
-   git clone <repository-url>
-   cd costprint1
+   git clone https://github.com/onelrian/costprintpro.git
+   cd costprintpro
    ./docker/start.sh dev
    ```
 
@@ -649,8 +649,8 @@ The application uses the following main tables:
 #### Docker Deployment (Recommended)
 ```bash
 # Clone repository
-git clone <repository-url>
-cd costprint1
+git clone https://github.com/onelrian/costprintpro.git
+cd costprintpro
 
 # Configure production environment
 cp docker/.env.example docker/.env
@@ -773,6 +773,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🆘 Support
 
 For support and questions:
-- Check the documentation in `memory.md`
-- Review the progress tracking in `progress.md`
-- Create an issue in the repository
+- Check the comprehensive documentation in this README
+- Review the API documentation in `API.md`
+- Create an issue in the GitHub repository

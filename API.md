@@ -625,4 +625,4 @@ API changes will be documented in the main CHANGELOG.md file with specific atten
 
 **API Version**: 1.0.0  
 **Last Updated**: September 20, 2024  
-**Support**: For API support, please create an issue in the GitHub repository.
+**Support**: For API support, please create an issue at https://github.com/onelrian/costprintpro/issues

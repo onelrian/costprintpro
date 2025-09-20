@@ -8,7 +8,7 @@ This directory contains Docker configuration files for running the CostPrint Pro
 
 1. **Build and run all services:**
    ```bash
-   cd /home/onel/Projects/costprint1
+   cd costprintpro
    docker-compose -f docker/docker-compose.yml up --build
    ```
 
@@ -22,7 +22,7 @@ This directory contains Docker configuration files for running the CostPrint Pro
 
 1. **Run development environment:**
    ```bash
-   cd /home/onel/Projects/costprint1
+   cd costprintpro
    docker-compose -f docker/docker-compose.dev.yml up --build
    ```
 
