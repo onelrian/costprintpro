@@ -44,11 +44,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (credentials: LoginRequest) => {
     try {
+      console.log('AuthContext: Starting login process');
       const response = await authApi.login(credentials);
+      console.log('AuthContext: Login successful, response:', response);
       localStorage.setItem('auth_token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
       setUser(response.user);
+      console.log('AuthContext: User set in state');
     } catch (error) {
+      console.error('AuthContext: Login error:', error);
       throw error;
     }
   };
