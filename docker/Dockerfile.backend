@@ -1,6 +1,15 @@
 # Use the official Rust image as a parent image
 FROM rust:latest as builder
 
+# Install additional tools for faster builds
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl-dev \
+    libpq-dev \
+    pkg-config \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /app
 
@@ -11,14 +20,18 @@ COPY backend/Cargo.toml ./
 RUN mkdir src && echo "fn main() {}" > src/main.rs
 
 # Build dependencies (this will be cached)
-RUN cargo build --release
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/app/target \
+    cargo build --release
 RUN rm src/main.rs
 
 # Copy the source code
 COPY backend/src ./src
 
 # Build the application
-RUN cargo build --release
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/app/target \
+    cargo build --release
 
 # Runtime stage
 FROM debian:bookworm-slim

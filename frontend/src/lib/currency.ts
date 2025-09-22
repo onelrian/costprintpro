@@ -40,7 +40,7 @@ export const formatCurrency = (amount: number, currency: Currency = 'USD'): stri
   // For other currencies, use standard formatting
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: currency === 'FCFA' ? 'XAF' : currency,
+    currency: currency === 'FCFA' ? 'XAF' : currency as string,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);
