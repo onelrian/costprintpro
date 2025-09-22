@@ -2,14 +2,9 @@
 
 ## Commands
 
-**Start Production (uses pre-built images):**
+**Start Application:**
 ```bash
 docker-compose -f docker/docker-compose.yml up -d
-```
-
-**Start Development (with hot reload):**
-```bash
-docker-compose -f docker/docker-compose.dev.yml up --build
 ```
 
 **Stop Services:**

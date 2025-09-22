@@ -28,9 +28,6 @@ cd costprintpro
 
 # Start all services (uses pre-built images)
 docker-compose -f docker/docker-compose.yml up -d
-
-# Or start in development mode (with hot reload)
-docker-compose -f docker/docker-compose.dev.yml up --build
 ```
 
 **Access:**
