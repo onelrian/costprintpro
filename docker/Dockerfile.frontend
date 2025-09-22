@@ -8,8 +8,7 @@ WORKDIR /app
 COPY frontend/package*.json ./
 
 # Install all dependencies (including devDependencies for build)
-RUN --mount=type=cache,target=/root/.npm-build \
-    npm ci --cache /root/.npm-build
+RUN npm ci
 
 # Copy the source code
 COPY frontend/ ./
@@ -30,8 +29,7 @@ WORKDIR /app
 COPY frontend/package*.json ./
 
 # Install only production dependencies
-RUN --mount=type=cache,target=/root/.npm-prod \
-    npm ci --omit=dev --cache /root/.npm-prod && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Copy the built application from builder stage
 COPY --from=builder /app/.next ./.next
