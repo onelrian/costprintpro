@@ -48,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_max_level(Level::INFO)
         .init();
 
-    info!("Starting Costprint Backend API");
+    info!("Starting Costprint Backend API v1.0");
 
     // Load configuration
     let config = Config::from_env()?;
