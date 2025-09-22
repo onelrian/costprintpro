@@ -26,13 +26,17 @@ A modern print job costing application for professional print shops.
 git clone https://github.com/onelrian/costprintpro.git
 cd costprintpro
 
-# Start all services (uses pre-built images)
+# Start all services (uses pre-built images from GitHub Container Registry)
 docker-compose -f docker/docker-compose.yml up -d
 ```
 
 **Access:**
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
+
+**Images:**
+- Frontend: `ghcr.io/onelrian/costprintpro-frontend:latest`
+- Backend: `ghcr.io/onelrian/costprintpro-backend:latest`
 
 **Useful Commands:**
 ```bash
@@ -45,7 +49,14 @@ docker-compose -f docker/docker-compose.yml logs -f
 # Update to latest images
 docker-compose -f docker/docker-compose.yml pull
 docker-compose -f docker/docker-compose.yml up -d
+
+# Check service status
+docker-compose -f docker/docker-compose.yml ps
 ```
+
+## Development
+
+The application uses pre-built Docker images that are automatically built and pushed to GitHub Container Registry via GitHub Actions. Images are updated on every push to the main branch.
 
 ## License
 
