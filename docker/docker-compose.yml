@@ -42,9 +42,7 @@ services:
 
   # Backend API (Rust with Axum)
   backend:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.backend
+    image: ghcr.io/onelrian/costprintpro-backend:latest
     container_name: costprint-backend
     environment:
       DATABASE_URL: postgresql://postgres:password@db:5432/costprint
@@ -64,8 +62,6 @@ services:
     networks:
       - app-network
     restart: unless-stopped
-    volumes:
-      - ./backend:/app  # Development volume for code changes
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
       interval: 30s
@@ -75,9 +71,7 @@ services:
 
   # Frontend Application (Next.js)
   frontend:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.frontend
+    image: ghcr.io/onelrian/costprintpro-frontend:latest
     container_name: costprint-frontend
     environment:
       NEXT_PUBLIC_API_URL: http://backend:8080  # Internal container communication
@@ -92,8 +86,6 @@ services:
     networks:
       - app-network
     restart: unless-stopped
-    volumes:
-      - ./frontend:/app  # Development volume for code changes
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]
       interval: 30s

@@ -26,8 +26,8 @@ A modern print job costing application for professional print shops.
 git clone https://github.com/onelrian/costprintpro.git
 cd costprintpro
 
-# Start all services (production)
-docker-compose -f docker/docker-compose.yml up -d --build
+# Start all services (uses pre-built images)
+docker-compose -f docker/docker-compose.yml up -d
 
 # Or start in development mode (with hot reload)
 docker-compose -f docker/docker-compose.dev.yml up --build
@@ -45,8 +45,9 @@ docker-compose -f docker/docker-compose.yml down
 # View logs
 docker-compose -f docker/docker-compose.yml logs -f
 
-# Rebuild and restart
-docker-compose -f docker/docker-compose.yml up --build
+# Update to latest images
+docker-compose -f docker/docker-compose.yml pull
+docker-compose -f docker/docker-compose.yml up -d
 ```
 
 ## License

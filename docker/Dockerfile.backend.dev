@@ -1,5 +1,5 @@
 # Development Dockerfile for Rust backend with hot reload
-FROM rust:1.77
+FROM rust:latest
 
 # Install development dependencies
 RUN apt-get update && apt-get install -y \
