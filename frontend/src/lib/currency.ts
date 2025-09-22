@@ -38,12 +38,10 @@ export const formatCurrency = (amount: number, currency: Currency = 'USD'): stri
   }
   
   // For other currencies, use standard formatting
-  // Map FCFA to XAF for Intl.NumberFormat (though this branch won't execute for FCFA)
-  const intlCurrency = currency === 'FCFA' ? 'XAF' : currency;
-  
+  // Use type assertion to avoid TypeScript narrowing issues
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: intlCurrency,
+    currency: currency as string,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);
